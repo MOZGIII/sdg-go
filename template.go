@@ -45,7 +45,7 @@ func WriteTempalte(args WriteTempalteArgs) error {
 		Rows      [][]string
 		Params    interface{}
 	}{
-		Timestamp: time.Now(),
+		Timestamp: time.Now().UTC(),
 		Package:   args.Package,
 		Rows:      args.Rows,
 		Params:    args.Params,
