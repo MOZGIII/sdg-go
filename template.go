@@ -24,6 +24,7 @@ type WriteTempalteArgs struct {
 	DstPath  string
 	Template *template.Template
 	Params   interface{}
+	Package  string
 }
 
 // WriteTempalte writes the template to a file.
@@ -36,10 +37,12 @@ func WriteTempalte(args WriteTempalteArgs) error {
 
 	err = args.Template.Execute(f, struct {
 		Timestamp time.Time
+		Package   string
 		Rows      [][]string
 		Params    interface{}
 	}{
 		Timestamp: time.Now(),
+		Package:   args.Package,
 		Rows:      args.Rows,
 		Params:    args.Params,
 	})
