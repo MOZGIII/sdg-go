@@ -16,7 +16,7 @@ func MakeTemplate(tpl string) (*template.Template, error) {
 var Debug = false
 
 // WriteTempalteOpenFlags are flags to be used for OpenFile at WriteTempalte.
-var WriteTempalteOpenFlags = os.O_WRONLY | os.O_CREATE
+var WriteTempalteOpenFlags = os.O_WRONLY | os.O_CREATE | os.O_TRUNC
 
 // WriteTempalteArgs holds argments for WriteTempalte func.
 type WriteTempalteArgs struct {
