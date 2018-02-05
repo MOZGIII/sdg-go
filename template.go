@@ -22,13 +22,17 @@ var WriteTempalteOpenFlags = os.O_WRONLY | os.O_CREATE | os.O_TRUNC
 type WriteTempalteArgs struct {
 	Rows     [][]string
 	DstPath  string
-	Template *template.Template
+	Template *template.Template // optional, defaults to a template made from DefaultTemplateString
 	Params   interface{}
-	Package  string
+	Package  string // optional, defaults to DefaultPackage
 }
 
 // WriteTempalte writes the template to a file.
 func WriteTempalte(args WriteTempalteArgs) error {
+	if err := applyDefaults(&args); err != nil {
+		return err
+	}
+
 	f, err := os.OpenFile(args.DstPath, WriteTempalteOpenFlags, 0600)
 	if err != nil {
 		return err
@@ -53,5 +57,25 @@ func WriteTempalte(args WriteTempalteArgs) error {
 		}
 		return err
 	}
+	return nil
+}
+
+func applyDefaults(args *WriteTempalteArgs) error {
+	if args == nil {
+		return nil
+	}
+
+	if args.Package == "" {
+		args.Package = DefaultPackage
+	}
+
+	if args.Template == nil {
+		tpl, err := MakeTemplate(DefaultTemplateString)
+		if err != nil {
+			return err
+		}
+		args.Template = tpl
+	}
+
 	return nil
 }
